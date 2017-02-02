@@ -7,6 +7,7 @@ import {Component} from "@angular/core";
     <div class="container">
         <a class="mini-navbar navbar-brand" routerLink="home">Wizard Demo</a>
         <ul class="nav navbar-nav">
+            <li [routerLinkActive]="['active']"><a routerLink="login">Login</a></li>
             <li [routerLinkActive]="['active']"><a routerLink="home">Home</a></li>
             <li [routerLinkActive]="['active']"><a routerLink="wizard">Wizard</a></li>
             <li [routerLinkActive]="['active']"><a routerLink="rickey">Rickey</a></li>
