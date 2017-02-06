@@ -23,6 +23,7 @@ constructor(private http: Http) {
 
   logout() {
     //localStorage.removeItem('auth_token');
+     
     this.loggedIn = false;
   }
 
@@ -31,6 +32,8 @@ constructor(private http: Http) {
   isLoggedIn() {
     return this.loggedIn;
   }
+
+  
 
 
 
