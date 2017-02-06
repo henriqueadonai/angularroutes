@@ -61,5 +61,12 @@ export class LoginComponent{
 
     }
 
+
+    signup(event){
+        event.preventDefault();
+        this.userService.logout();
+        this.router.navigate(['houme']);
+    }
+
 }
 

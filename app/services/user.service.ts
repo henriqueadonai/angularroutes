@@ -26,7 +26,13 @@ constructor(private http: Http) {
     this.loggedIn = false;
   }
 
+  
+
   isLoggedIn() {
     return this.loggedIn;
   }
+
+
+
+
 }

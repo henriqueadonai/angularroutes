@@ -1,4 +1,5 @@
 import {Component} from "@angular/core";
+import { UserService } from "./services/user.service";
 
 @Component({
     selector: 'wizard-app',
@@ -7,10 +8,15 @@ import {Component} from "@angular/core";
     <div class="container">
         <a class="mini-navbar navbar-brand" routerLink="home">Wizard Demo</a>
         <ul class="nav navbar-nav">
-            <li [routerLinkActive]="['active']"><a routerLink="login">Login</a></li>
+            <li [routerLinkActive]="['active']"><a *ngIf="!loginInfo.isLoggedIn()" routerLink="login">Login in</a></li>
+            <li [routerLinkActive]="['active']"><a *ngIf="loginInfo.isLoggedIn()" routerLink="login">Login out</a></li>
             <li [routerLinkActive]="['active']"><a routerLink="home">Home</a></li>
             <li [routerLinkActive]="['active']"><a routerLink="wizard">Wizard</a></li>
             <li [routerLinkActive]="['active']"><a routerLink="rickey">Rickey</a></li>
+            
+
+               
+
         </ul>
     </div>
 </div>
@@ -19,4 +25,8 @@ import {Component} from "@angular/core";
 </div>
 `
 })
-export class AppComponent { }
+export class AppComponent { 
+    constructor(private loginInfo : UserService){}
+
+
+}
