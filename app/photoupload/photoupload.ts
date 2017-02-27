@@ -14,8 +14,8 @@ class FileHolder {
 
 <div>
 <h1>Photo Upload</h1>
-<div class="image-upload">
-</div>
+
+
 
   <div class="file-upload hr-inline-group">
     <label class="upload-button">
@@ -26,9 +26,8 @@ class FileHolder {
         multiple (change)="fileChange(input.files)"
         #input>
     </label>
-
-    
   </div>
+
 
 
 </div>
@@ -68,9 +67,85 @@ export class ImageUploadComponent {
   ngOnInit() {
     this.imageService.setUrl(this.url);
   }
+
+  fileChange(files) {
+    let remainingSlots = this.countRemainingSlots();
+    let filesToUploadNum = files.length > remainingSlots ? remainingSlots : files.length;
+
+    if (this.url && filesToUploadNum != 0) {
+      this.isPending.emit(true);
+    }
+
+    this.fileCounter += filesToUploadNum;
+
+    this.uploadFiles(files, filesToUploadNum);
+  }
+
+  private uploadFiles(files, filesToUploadNum) {
+    for (let i = 0; i < filesToUploadNum; i++) {
+      let file = files[i];
+
+
+      let img = document.createElement('img');
+      img.src = window.URL.createObjectURL(file);
+
+      let reader = new FileReader();
+      reader.addEventListener('load', (event: any) => {
+        let fileHolder: FileHolder = new FileHolder(event.target.result, file);
+
+        fileHolder.serverResponse = `good boy: ${i}`;
+
+        this.uploadSingleFile(fileHolder);
+
+        this.files.push(fileHolder);
+
+      }, false);
+
+
+      reader.readAsDataURL(file);
+    }
+  }
+
+  private uploadSingleFile(fileHolder: FileHolder) {
+    if (this.url) {
+      this.pendingFilesCounter++;
+      fileHolder.pending = true;
+
+      this.imageService.postImage(fileHolder.file, this.headers).subscribe(response => {
+        fileHolder.serverResponse = response;
+        this.onFileUploadFinish.emit(fileHolder);
+        fileHolder.pending = false;
+        if (--this.pendingFilesCounter == 0) {
+          this.isPending.emit(false);
+        }
+      });
+
+    } else {
+      this.onFileUploadFinish.emit(fileHolder);
+    }
+  }
+
+  private deleteFile(file: FileHolder): void {
+    let index = this.files.indexOf(file);
+    this.files.splice(index, 1);
+    this.fileCounter--;
+
+    this.onRemove.emit(file);
+  }
+
+  fileOver(isOver) {
+    this.isFileOver = isOver;
+  }
+
   private countRemainingSlots() {
     return this.max - this.fileCounter;
   }
+
+
+  get value(): any[] {
+    return this.files;
+  }
+
 
 
 
