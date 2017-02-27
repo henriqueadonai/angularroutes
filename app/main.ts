@@ -13,10 +13,19 @@ import {CanDeactivateWizard} from "./wizard/canDeactivateWizard";
 import {AppComponent} from "./app.component";
 import {RickeyComponent} from "./rickey/rickey";
 
+//Photoupload
+import {ImageUploadComponent} from "./photoupload/photoupload";
+
+
 
 //Route
 import { LoggedInGuard } from "./logged-in.guard";
 import { UserService } from "./services/user.service";
+
+import {ImageService} from "./services/image.service";
+
+
+
 
 import { HttpModule } from '@angular/http';
 
@@ -38,7 +47,8 @@ const appRoutes: Route[] = [
             {path: 'confirmation', component: WizardConfirmationComponent}
         ]
     },
-    {path: 'rickey', component: RickeyComponent, canActivate: [LoggedInGuard]}
+    {path: 'rickey', component: RickeyComponent, canActivate: [LoggedInGuard]},
+    {path: 'photoupload' , component: ImageUploadComponent}
 ];
 
 @NgModule({
@@ -46,14 +56,15 @@ const appRoutes: Route[] = [
         BrowserModule,
         FormsModule,
         RouterModule.forRoot(appRoutes),
-        HttpModule
+        HttpModule,
+
     ],
     //declarations are to make directives (including components and pipes) from the current module available to other directives in the current module. 
     //Selectors of directives, components or pipes are only matched against the HTML if they are declared or imported.
-    declarations: [AppComponent, HomeComponent,LoginComponent, WizardComponent, WizardTypeComponent, WizardInfoComponent, WizardConfirmationComponent,RickeyComponent],
+    declarations: [AppComponent, HomeComponent,LoginComponent, WizardComponent, WizardTypeComponent, WizardInfoComponent, WizardConfirmationComponent,RickeyComponent,ImageUploadComponent],
     //providers are to make services and values known to DI. 
     //They are added to the root scope and they are injected to other services or directives that have them as dependency.
-    providers: [ UserWizardsService, CanDeactivateWizard,LoggedInGuard, UserService],
+    providers: [ UserWizardsService, CanDeactivateWizard,LoggedInGuard,UserService,ImageService],
     bootstrap: [AppComponent]
 })
 class AppModule { }

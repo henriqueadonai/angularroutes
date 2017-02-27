@@ -19,6 +19,7 @@ import { Router } from '@angular/router';
             <li [routerLinkActive]="['active']"><a *ngIf="!show()" (click)="changeshowlink()" >Hide Link</a></li>    
             <li [routerLinkActive]="['active']"><a *ngIf="show()" (click)="changeshowlink()" >Show link</a></li>    
 
+            <li [routerLinkActive]="['active']"><a routerLink="photoupload">Upload</a></li>    
 
         </ul>
     </div>
